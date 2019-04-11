@@ -1,0 +1,13 @@
+*,
+::after,
+::before {
+    box-sizing: border-box;
+}
+
+svg {
+    isolation: isolate;
+}
+
+circle {
+    mix-blend-mode: lighten;
+}
