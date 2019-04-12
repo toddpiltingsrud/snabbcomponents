@@ -5,10 +5,8 @@ This is a web component authoring micro-library built on top of [snabbdom](https
 I wanted to create a development experience similar to [React](https://reactjs.org/) so my colleagues wouldn't have to learn a new library. So it uses many of the same strategies/patterns as React, including:
 
 -   Inheriting from a `Component` class to create components
--   Overriding a `render` function to return the JSON template
--   Using `props` to pass parameters from parent components to child components
+-   Overriding a `render` function to return the template
 -   A `setState` function that triggers re-rendering
--   The use of an optional `key` property on arrays of elements to make updating the DOM more efficient
 
 Also supported are most of React's lifecycle functions:
 
@@ -25,7 +23,7 @@ Also supported are most of React's lifecycle functions:
 -   Inheritance actually works. Build base components, inherit from them, and override their methods to extend them. (Inheritance does NOT work in React.)
 -   Components run on top of the [web component standard](https://www.webcomponents.org/specs). To run a component, just add it to the page.
 
-## Convenience methods
+## Utility functions
 
 -   `bind(fns)`: Pass an array of functions to bind their context to the component.
 -   `triggerEvent(name, detail)`: Dispatch a custom event with an optional detail payload from the component.
