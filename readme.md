@@ -1,23 +1,39 @@
-This will be a component authoring library that uses JSX and a react-like API.
+# snabbdomcomponents
 
-It uses the web components standard.
+This is a web component authoring micro-library built on top of [snabbdom](https://github.com/snabbdom/snabbdom) and the [web component standard](https://www.webcomponents.org/specs).
 
-There will be two ways of bootstrapping components:
+I wanted to create a development experience similar to [React](https://reactjs.org/) so my colleagues wouldn't have to learn a new library. So it uses many of the same strategies/patterns as React, including:
 
-1: Add the custom HTML element to the page.
-2: Call the component's constructor function with a CSS selector and an object containing the component instance's props.
-The constructor will instantiate an instance of the component inside the element targeted by the CSS selector using the configuration argument as its props. (We'll just have to figure out how to enable calling of the constructor. Since it inherits from HTMLElement, contructing a component instance manually throws an error when "super" is called.)
+-   Inheriting from a `Component` class to create components
+-   Overriding a `render` function to return the JSON template
+-   Using `props` to pass parameters from parent components to child components
+-   A `setState` function that triggers re-rendering
+-   The use of an optional `key` property on arrays of elements to make updating the DOM more efficient
 
-It's interesting to note that shadow DOM would be available with either of these methods.
+Also supported are most of React's lifecycle functions:
 
-The use case for a library like this is to add web components to server-rendered web applications.
-I want to adopt a more structured way of introducing dynamic behavior to traditional server-rendered web applications.
-Server-rendered web applications still tend to be the domain of jQuery.
-The problem with jQuery and similar libraries is that there is no formal mechanism for creating and managing data-driven behaviors. So we typically see Javascript that binds event handlers directly to HTML elements which then make changes directly to the DOM when those handlers are triggered. This tightly couples behaviors to specific DOM elements, making the page hard to change and easy to break.
+-   getDerivedStateFromProps()
+-   shouldComponentUpdate()
+-   componentDidUpdate()
+-   componentDidMount()
+-   componentWillUnmount()
 
-I could use Vue to do this, but I don't like its templating strategy.
-Vue extends HTML with custom attributes to create branching and looping constructs.
-Problems with this approach:
+## Advantages Over React
 
--   It's proprietary. I have to relearn it every time I revisit a project with Vue components in it.
--   It's limited. It's hard to create a full-fledged programming language with this approach without ending up with something really arcane and messy. Declarative languages are not a good fit for complex operations involving a lot of data. It reminds me of XSL, a language that devs love to hate for exactly this reason.
+-   Much smaller footprint (9kb minified).
+-   Components can run without compilation in browsers that support ES2015 classes. (Or use classic functions and prototype inheritance instead.)
+-   Inheritance actually works. Build base components, inherit from them, and override their methods to extend them. (Inheritance does NOT work in React.)
+-   Components run on top of the [web component standard](https://www.webcomponents.org/specs). To run a component, just add it to the page.
+
+## Convenience methods
+
+-   `bind(fns)`: Pass an array of functions to bind their context to the component.
+-   `triggerEvent(name, detail)`: Dispatch a custom event with an optional detail payload from the component.
+-   `on(name, selector, fn`: Add an event handler using event delegation. Event handlers added with `on` will automatically be removed when the component is disconnected from the DOM.
+-   `off(name, selector, fn)`: Remove an event handler add with `on`.
+
+## Rationale
+
+The use case for snabbcomponents is to provide a more structured way of introducing dynamic behavior into traditional server-rendered web applications. Server-rendered web applications still tend to be the domain of jQuery. The problem with jQuery and similar libraries is that there is no formal mechanism for creating and managing data-driven behaviors. I typically see JavaScript that binds event handlers directly to DOM elements which then make changes directly to the DOM when those handlers are triggered. This tightly couples behaviors to specific DOM elements, making the page hard to change and easy to break.
+
+By introducing a small web component library built on the web component standard which also has virtual DOM capabilities, we can begin to replace loose jQuery-based scripts with web components that give us a lot more structure, capability, reliability, and reusability. I also like being able to output a custom HTML tag from a server-rendered view and have the browser execute it automatically. No bootstrapping required, very clean.
