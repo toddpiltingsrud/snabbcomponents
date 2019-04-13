@@ -1,4 +1,4 @@
-# snabbdomcomponents
+# snabbcomponents
 
 This is a web component authoring micro-library built on top of [snabbdom](https://github.com/snabbdom/snabbdom) and the [web component standard](https://www.webcomponents.org/specs).
 
