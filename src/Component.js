@@ -221,14 +221,14 @@ const Component = class extends HTMLElement {
     componentWillUnmount() {}
 
     render() {
-        return null;
+        return snabbdom.h("div");
     }
 
     parseTemplate() {
         try {
             this.rendering = true;
             this.deriveStateFromProps();
-            const newVNode = this.render();
+            const newVNode = this.render(snabbdom.h);
             this.patch(this.currentVNode, newVNode);
             this.currentVNode = newVNode;
             this.componentDidUpdate(this.previousProps, this.previousState);
@@ -237,6 +237,20 @@ const Component = class extends HTMLElement {
         } finally {
             this.rendering = false;
         }
+    }
+
+    getRoot() {
+        let root = this;
+        if (this.shadowMode) {
+            root = this.attachShadow({ mode: this.shadowMode });
+        }
+        // add a div inside the root so snabbdom doesn't replace the custom element
+        // this is mandatory if shadow DOM is enabled
+        // because snabbdom will error out if the shadow is used as the starting vnode
+        // (because it's a document fragment, not an HTMLElement)
+        this.currentVNode = document.createElement("div");
+        root.appendChild(this.currentVNode);
+        return root;
     }
 
     // web component hooks
@@ -250,12 +264,7 @@ const Component = class extends HTMLElement {
                 ...this.props,
                 ...attr
             };
-            if (this.shadowMode) {
-                this.root = this.attachShadow({ mode: this.shadowMode });
-                // add a div inside the shadow for snabbdom to render into
-                this.currentVNode = document.createElement("div");
-                this.root.appendChild(this.currentVNode);
-            }
+            this.root = this.getRoot();
             this.parseTemplate();
             this.componentDidMount();
         } catch (e) {
