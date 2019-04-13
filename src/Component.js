@@ -207,7 +207,7 @@ const Component = class extends HTMLElement {
     }
 
     static getDerivedStateFromProps(props, state) {
-        return null;
+        return state;
     }
 
     shouldComponentUpdate(nextProps, nextState) {
