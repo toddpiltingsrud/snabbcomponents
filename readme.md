@@ -22,6 +22,7 @@ Also supported are most of React's lifecycle functions:
 -   Components can run without compilation in browsers that support ES2015 classes. (Or use classic functions and prototype inheritance instead.)
 -   Inheritance actually works. Build base components, inherit from them, and override their methods to extend them. (Inheritance does NOT work in React.)
 -   Components run on top of the [web component standard](https://www.webcomponents.org/specs). To run a component, just add it to the page.
+-   [Shadow DOM](https://developers.google.com/web/fundamentals/web-components/shadowdom): Components can be optionally configured to execute in their own isolated sandbox so their styling and inner workings don't bleed over into the rest of the page and vice-versa.
 
 ## Utility functions
 
