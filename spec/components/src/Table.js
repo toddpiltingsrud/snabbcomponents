@@ -1,7 +1,7 @@
-import Component from "./Component";
+import { Component } from "../../../src/Component.js";
 import h from "snabbdom/h";
 
-class Table extends Component {
+export class Table extends Component {
     render() {
         return h("div.table-responsive", this.getTable());
     }
@@ -23,6 +23,4 @@ class Table extends Component {
     }
 }
 
-export default Table;
-
-customElements.define("jwc-table", Table);
+customElements.define("sc-table", Table);

@@ -1,13 +1,12 @@
 import * as snabbdom from "snabbdom";
 
-const Component = class extends HTMLElement {
+export class Component extends HTMLElement {
     constructor(selector, props) {
         super();
         this.root = this;
         this.state = {};
         this.props = {};
         this.srch = this.readSearch();
-        this.shadow = null;
         this.shadowMode = null;
         this.currentVNode = this;
         this.previousState = null;
@@ -36,10 +35,7 @@ const Component = class extends HTMLElement {
     }
 
     decode(str) {
-        if (str) {
-            return decodeURIComponent(str.replace(/\+/g, " "));
-        }
-        return null;
+        return str ? decodeURIComponent(str.replace(/\+/g, " ")) : null;
     }
 
     readSearch(arg) {
@@ -287,6 +283,4 @@ const Component = class extends HTMLElement {
         this.componentWillUnmount();
         this.clearEventHandlers();
     }
-};
-
-export default Component;
+}

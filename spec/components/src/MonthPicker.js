@@ -1,7 +1,7 @@
-﻿import Table from "./Table.js";
+﻿import { Table } from "./Table.js";
 import h from "snabbdom/h";
 
-class MonthPicker extends Table {
+export class MonthPicker extends Table {
     constructor() {
         super();
 
@@ -47,6 +47,8 @@ class MonthPicker extends Table {
             this.state.month.toString() + "/" + this.state.year.toString()
         );
     }
+
+    // overrides from Table.js
 
     getTable() {
         return [
@@ -154,6 +156,4 @@ class MonthPicker extends Table {
     }
 }
 
-export default MonthPicker;
-
-customElements.define("jsml-monthpicker", MonthPicker);
+customElements.define("sc-monthpicker", MonthPicker);

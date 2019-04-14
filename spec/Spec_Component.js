@@ -1,4 +1,4 @@
-import Component from "../src/Component";
+import { Component } from "../src/Component";
 
 describe("Component", function() {
     it("should read search", function() {
