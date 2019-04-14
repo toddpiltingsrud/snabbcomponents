@@ -48,6 +48,17 @@ export class MonthPicker extends Table {
         );
     }
 
+    getMonthNames() {
+        let date;
+        const names = [];
+        const locale = this.props.locale || "en-us";
+        for (var i = 0; i < 12; i++) {
+            date = new Date(2019, i, 1);
+            names.push(date.toLocaleString(locale, { month: "short" }));
+        }
+        return names;
+    }
+
     // overrides from Table.js
 
     getTable() {
@@ -111,20 +122,7 @@ export class MonthPicker extends Table {
     getBody() {
         const self = this;
         const arr = [];
-        const months = [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec"
-        ];
+        const months = this.getMonthNames();
         const rows = [0, 1, 2];
         const cols = [1, 2, 3, 4];
 
