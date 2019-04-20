@@ -28,7 +28,7 @@ Also supported are most of React's lifecycle functions:
 -   `bind(fns)`: Pass an array of functions to bind their context to the component.
 -   `triggerEvent(name, detail)`: Dispatch a custom event with an optional detail payload from the component.
 -   `on(name, selector, fn`: Add an event handler using event delegation. Event handlers added with `on` will automatically be removed when the component is disconnected from the DOM.
--   `off(name, selector, fn)`: Remove an event handler add with `on`.
+-   `off(name, selector, fn)`: Remove an event handler added with `on`.
 
 ## Why
 

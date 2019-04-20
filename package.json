@@ -1,12 +1,13 @@
 {
     "name": "spents",
-    "version": "0.0.1",
+    "version": "0.0.7",
     "keywords": [
         "component",
         "template",
         "web components",
         "snabbdom"
     ],
+    "main": "index.js",
     "author": {
         "name": "Todd Piltingsrud"
     },
@@ -15,7 +16,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/toddpiltingsrud/"
+        "url": "https://github.com/toddpiltingsrud/spents"
     },
     "devDependencies": {
         "@babel/core": "^7.4.3",
@@ -26,7 +27,6 @@
         "webpack-cli": "^3.3.0"
     },
     "dependencies": {
-        "@babel/polyfill": "^7.2.5",
-        "@webcomponents/webcomponentsjs": "^2.2.4"
+        "snabbdom": "^0.7.3"
     }
 }

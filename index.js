@@ -1,6 +1,6 @@
 import * as snabbdom from "snabbdom";
 
-export class Component extends HTMLElement {
+export default class Component extends HTMLElement {
     constructor(selector, props) {
         super();
         this.root = this;
