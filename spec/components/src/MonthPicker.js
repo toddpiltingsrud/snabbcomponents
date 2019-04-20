@@ -119,38 +119,34 @@ export class MonthPicker extends Table {
         ]);
     }
 
-    getBody() {
+    getRows() {
         const self = this;
-        const arr = [];
         const months = this.getMonthNames();
         const rows = [0, 1, 2];
         const cols = [1, 2, 3, 4];
 
-        return h(
-            "tbody",
-            rows.map(function(row) {
-                return h(
-                    "tr",
-                    cols.map(function(col) {
-                        const m = row * 4 + col;
-                        return h(
-                            "td",
-                            h(
-                                "a.btn btn-default month" +
-                                    (self.state.month === m ? " selected" : ""),
-                                {
-                                    props: {
-                                        value: m,
-                                        href: "javascript:void(0)"
-                                    }
-                                },
-                                months[m - 1]
-                            )
-                        );
-                    })
-                );
-            })
-        );
+        return rows.map(function(row) {
+            return h(
+                "tr",
+                cols.map(function(col) {
+                    const m = row * 4 + col;
+                    return h(
+                        "td",
+                        h(
+                            "a.btn btn-default month" +
+                                (self.state.month === m ? " selected" : ""),
+                            {
+                                props: {
+                                    value: m,
+                                    href: "javascript:void(0)"
+                                }
+                            },
+                            months[m - 1]
+                        )
+                    );
+                })
+            );
+        });
     }
 }
 

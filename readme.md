@@ -1,4 +1,4 @@
-# snabbcomponents
+# spents
 
 This is a web component micro-library built on top of [snabbdom](https://github.com/snabbdom/snabbdom) and the [web component standard](https://www.webcomponents.org/specs).
 
@@ -32,6 +32,6 @@ Also supported are most of React's lifecycle functions:
 
 ## Why
 
-The use case for snabbcomponents is to provide a more structured way of introducing dynamic behavior into traditional server-rendered web applications. Server-rendered web applications still tend to be the domain of jQuery. The problem with jQuery and similar libraries is that there is no formal mechanism for creating and managing data-driven behaviors. I typically see JavaScript that binds event handlers directly to DOM elements which then make changes directly to the DOM when those handlers are triggered. This tightly couples behaviors to specific DOM elements, making the page hard to change and easy to break.
+The use case for spents is to provide a more structured way of introducing dynamic behavior into traditional server-rendered web applications. Server-rendered web applications still tend to be the domain of jQuery. The problem with jQuery and similar libraries is that there is no formal mechanism for creating and managing data-driven behaviors. I typically see JavaScript that binds event handlers directly to DOM elements which then make changes directly to the DOM when those handlers are triggered. This tightly couples behaviors to specific DOM elements, making the page hard to change and easy to break.
 
 By introducing a small web component library built on the web component standard which also has virtual DOM capabilities, we can begin to replace loose jQuery-based scripts with web components, giving us more structure, capability, reliability, and reusability. I also like being able to output a custom HTML tag from a server-rendered view and have the browser execute it automatically. No external bootstrapping required, very clean.

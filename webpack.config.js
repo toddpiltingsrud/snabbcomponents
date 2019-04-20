@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = [
     {
         entry: "./src/Component.js",
-        mode: "production",
+        mode: "development",
         output: {
             filename: "Component.js",
             path: path.resolve(__dirname, "dist")
@@ -25,7 +25,7 @@ module.exports = [
     },
     {
         entry: "./spec/Spec_Component.js",
-        mode: "production",
+        mode: "development",
         output: {
             filename: "spec.js",
             path: path.resolve(__dirname, "spec")
@@ -47,7 +47,7 @@ module.exports = [
     },
     {
         entry: ["./spec/components/src/MonthPicker.js"],
-        mode: "production",
+        mode: "development",
         output: {
             filename: "index.js",
             path: path.resolve(__dirname, "spec/components/dist")
