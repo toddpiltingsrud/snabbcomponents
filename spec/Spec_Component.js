@@ -1,4 +1,4 @@
-import { Component } from "../src/Component";
+import Component from "../index.js";
 
 describe("Component", function() {
     it("should read search", function() {
@@ -86,9 +86,9 @@ describe("Component", function() {
                 }
             }
         }
-        customElements.define("jsml-setstateincorrectly", badComponent);
+        customElements.define("spents-setstateincorrectly", badComponent);
 
-        const bad = document.createElement("jsml-setstateincorrectly");
+        const bad = document.createElement("spents-setstateincorrectly");
         document.body.appendChild(bad);
 
         expect(didThrow).toEqual(true);
@@ -107,9 +107,9 @@ describe("Component", function() {
                 }
             }
         }
-        customElements.define("jsml-setpropsincorrectly", badComponent);
+        customElements.define("spents-setpropsincorrectly", badComponent);
 
-        const bad = document.createElement("jsml-setpropsincorrectly");
+        const bad = document.createElement("spents-setpropsincorrectly");
         document.body.appendChild(bad);
 
         expect(didThrow).toEqual(true);
@@ -136,9 +136,9 @@ describe("Component", function() {
             }
         }
 
-        customElements.define("jsml-comp2", comp2);
+        customElements.define("spents-comp2", comp2);
 
-        const instance = document.createElement("jsml-comp2");
+        const instance = document.createElement("spents-comp2");
         document.body.appendChild(instance);
 
         const button1 = instance.querySelector("button.button1");
@@ -152,5 +152,43 @@ describe("Component", function() {
         document.body.removeChild(instance);
 
         expect(instance.eventHandlers.length).toEqual(0);
+    });
+
+    it("should not supplant", function() {
+        class c extends Component {
+            constructor() {
+                super();
+                this.supplant = false;
+            }
+        }
+        customElements.define("spents-shouldnotsupplant", c);
+
+        const instance = document.createElement("spents-shouldnotsupplant");
+
+        document.body.appendChild(instance);
+
+        const element = document.querySelector("spents-shouldnotsupplant");
+
+        expect(element).toBeDefined();
+
+        document.body.removeChild(instance);
+    });
+
+    it("should supplant", function() {
+        class c extends Component {
+            constructor() {
+                super();
+                this.supplant = true;
+            }
+        }
+        customElements.define("spents-shouldsupplant", c);
+
+        const instance = document.createElement("spents-shouldsupplant");
+
+        document.body.appendChild(instance);
+
+        const element = document.querySelector("spents-shouldsupplant");
+
+        expect(element).toEqual(null);
     });
 });

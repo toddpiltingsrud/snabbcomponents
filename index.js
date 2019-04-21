@@ -14,6 +14,7 @@ export default class Component extends HTMLElement {
         this.connecting = false;
         this.rendering = false;
         this.eventHandlers = [];
+        this.supplant = false;
     }
 
     getPatch() {
@@ -237,15 +238,22 @@ export default class Component extends HTMLElement {
 
     getRoot() {
         let root = this;
-        if (this.shadowMode) {
+
+        if (this.shadowMode && !this.supplant) {
             root = this.attachShadow({ mode: this.shadowMode });
+        } else if (!this.shadowMode && this.supplant) {
+            this.currentVNode = this;
         }
-        // add a div inside the root so snabbdom doesn't replace the custom element
-        // this is mandatory if shadow DOM is enabled
-        // because snabbdom will error out if the shadow is used as the starting vnode
-        // (because it's a document fragment, not an HTMLElement)
-        this.currentVNode = document.createElement("div");
-        root.appendChild(this.currentVNode);
+
+        if (!this.supplant) {
+            // add a div inside the root so snabbdom doesn't replace the custom element
+            // this is mandatory if shadow DOM is enabled
+            // because snabbdom will error out if the shadow is used as the starting vnode
+            // (because it's a document fragment, not an HTMLElement)
+            this.currentVNode = document.createElement("div");
+            root.appendChild(this.currentVNode);
+        }
+
         return root;
     }
 
