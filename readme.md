@@ -1,6 +1,6 @@
 # spents
 
-This is a web component micro-library built on top of [snabbdom](https://github.com/snabbdom/snabbdom) and the [web component standard](https://www.webcomponents.org/specs).
+This is a web component micro-library built on top of [virtual-dom](https://github.com/Matt-Esch/virtual-dom) and the [web component standard](https://www.webcomponents.org/specs).
 
 I wanted to create a development experience similar to [React](https://reactjs.org/) so my colleagues wouldn't have to learn a new library. So it uses many of the same strategies/patterns as React, including:
 

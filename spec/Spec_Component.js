@@ -85,6 +85,10 @@ describe("Component", function() {
                     didThrow = true;
                 }
             }
+
+            componentDidMount() {
+                this.setState({});
+            }
         }
         customElements.define("spents-setstateincorrectly", badComponent);
 
@@ -105,6 +109,9 @@ describe("Component", function() {
                 } catch {
                     didThrow = true;
                 }
+            }
+            componentDidMount() {
+                this.setState({});
             }
         }
         customElements.define("spents-setpropsincorrectly", badComponent);
@@ -190,5 +197,43 @@ describe("Component", function() {
         const element = document.querySelector("spents-shouldsupplant");
 
         expect(element).toEqual(null);
+    });
+
+    it("should pass props from parent to child", function() {
+        const data = [1, 2, 3];
+
+        class parent extends Component {
+            render(h) {
+                return h(
+                    "div",
+                    h("spents-child", {
+                        props: {
+                            data
+                        }
+                    })
+                );
+            }
+        }
+
+        class child extends Component {
+            render(h) {
+                return h("ul", this.props.data.map(item => h("li", {}, item)));
+            }
+        }
+
+        customElements.define("spents-parent", parent);
+        customElements.define("spents-child", child);
+
+        const instance = document.createElement("spents-parent");
+
+        document.body.appendChild(instance);
+
+        var list = instance.querySelectorAll("li");
+
+        for (let i = 0; i < data.length; i++) {
+            expect(list[i].textContent).toEqual(data[i].toString());
+        }
+
+        document.body.removeChild(instance);
     });
 });

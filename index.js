@@ -1,4 +1,8 @@
-import * as snabbdom from "snabbdom";
+import h from "virtual-dom/h";
+import diff from "virtual-dom/diff";
+import patch from "virtual-dom/patch";
+import createElement from "virtual-dom/create-element";
+import createVNode from "vdom-virtualize";
 
 export default class Component extends HTMLElement {
     constructor(selector, props) {
@@ -15,11 +19,6 @@ export default class Component extends HTMLElement {
         this.rendering = false;
         this.eventHandlers = [];
         this.supplant = false;
-    }
-
-    getPatch() {
-        // override this method to initialize snabbdom with other modules
-        return snabbdom.init([require("snabbdom/modules/props").default]);
     }
 
     bind(fns) {
@@ -218,15 +217,16 @@ export default class Component extends HTMLElement {
     componentWillUnmount() {}
 
     render() {
-        return snabbdom.h("div");
+        return h("div");
     }
 
     parseTemplate() {
         try {
             this.rendering = true;
             this.deriveStateFromProps();
-            const newVNode = this.render(snabbdom.h);
-            this.patch(this.currentVNode, newVNode);
+            const newVNode = this.render(h);
+            const patches = diff(this.currentVNode, newVNode);
+            patch(this.root, patches);
             this.currentVNode = newVNode;
             this.componentDidUpdate(this.previousProps, this.previousState);
         } catch (e) {
@@ -238,20 +238,20 @@ export default class Component extends HTMLElement {
 
     getRoot() {
         let root = this;
+        this.currentVNode = this.render(h);
 
+        // can't replace the shadow with an HTML element
         if (this.shadowMode && !this.supplant) {
             root = this.attachShadow({ mode: this.shadowMode });
+            root.appendChild(createElement(this.currentVNode));
         } else if (!this.shadowMode && this.supplant) {
-            this.currentVNode = this;
-        }
-
-        if (!this.supplant) {
-            // add a div inside the root so snabbdom doesn't replace the custom element
-            // this is mandatory if shadow DOM is enabled
-            // because snabbdom will error out if the shadow is used as the starting vnode
-            // (because it's a document fragment, not an HTMLElement)
-            this.currentVNode = document.createElement("div");
-            root.appendChild(this.currentVNode);
+            const rootVNode = createVNode(root);
+            const patches = diff(rootVNode, this.currentVNode);
+            patch(root, patches);
+        } else if (!this.shadowMode && !this.supplant) {
+            root.appendChild(createElement(this.currentVNode));
+        } else if (this.shadowMode && this.supplant) {
+            throw new Error("Cannot supplant shadow");
         }
 
         return root;
@@ -262,19 +262,17 @@ export default class Component extends HTMLElement {
     connectedCallback() {
         try {
             this.connecting = true;
-            this.patch = this.getPatch();
             const attr = this.readAttributes();
             this.props = {
                 ...this.props,
                 ...attr
             };
             this.root = this.getRoot();
-            this.parseTemplate();
-            this.componentDidMount();
         } catch (e) {
             throw e;
         } finally {
             this.connecting = false;
+            this.componentDidMount();
         }
     }
 
