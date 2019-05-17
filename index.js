@@ -4,8 +4,14 @@ import patch from "virtual-dom/patch";
 import createElement from "virtual-dom/create-element";
 import createVNode from "vdom-virtualize";
 
+/*
+I once tried to convert this project to TypeScript.
+This doesn't work because the syntax of the ES2015 class is required by the web component standard.
+Prototype-based inheritance fails for the same reason.
+*/
+
 export default class Component extends HTMLElement {
-    constructor(selector, props) {
+    constructor() {
         super();
         this.root = this;
         this.state = {};
